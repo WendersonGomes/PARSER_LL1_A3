@@ -35,23 +35,23 @@ Asp: \"
 //resultado=n1+n2;
 //printf(resultado);
 
-PLV_RESER_DECL      : {PReserv_Decl}
-PLV_RESER_IMPR      : {PReserv_Impr}
-PLV_RESER_PEGA      : {PReserv_Pega}
-IDENTIFICADOR       : {Letra}({Letra}|{Digito})*
-NUM_INTEIRO         : {Digito}+
-STRING              : \"([^\"\\\r\n]|\\.)*\"
-DELIMITADOR_O       : {Delim_op}
-DELIMITADOR_C       : {Delim_cl}
-SOMA                : {Mais}
-SUBT                : {Menos}
-MULT                : {Multi}
-DIVI                : {Divi}
-ATRIBUICAO          : {Ig}
-PONT_VIRG           : {PontV}
-VIRGULA             : {Virg}
-ORGANIZADOR_Linha   : {Org_n}+
-ORGANIZADOR_Espaco  : {Org_esp}+
+PLV_RESER_DECL: {PReserv_Decl}
+PLV_RESER_IMPR: {PReserv_Impr}
+PLV_RESER_PEGA: {PReserv_Pega}
+IDENTIFICADOR: {Letra}({Letra}|{Digito})*
+NUM_INTEIRO: {Digito}+
+STRING: \"([^\"\\\r\n]|\\.)*\"
+DELIMITADOR_O: {Delim_op}
+DELIMITADOR_C: {Delim_cl}
+SOMA: {Mais}
+SUBT: {Menos}
+MULT: {Multi}
+DIVI: {Divi}
+ATRIBUICAO: {Ig}
+PONT_VIRG: {PontV}
+VIRGULA: {Virg}
+ORGANIZADOR_Linha: {Org_n}+
+ORGANIZADOR_Espaco: {Org_esp}+
 #NonTerminals
 <Inicio>
 <Variaveis>
