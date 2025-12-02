@@ -1,0 +1,120 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Full
+Input = String
+Parser = LL
+#RegularDefinitions
+Letra: [a-zA-Z]
+Digito: [0-9]
+Mais: ["+"]
+Menos: ["-"]
+Multi: ["*"]
+Divi: ["/"]
+Delim_op: ["("]
+Delim_cl: [")"]
+PontV: [";"]
+Virg: [","]
+Ig: ["="]
+PReserv_Decl: int
+PReserv_Impr: printf
+PReserv_Pega: scanf
+Org_n: \n
+Org_esp: \s | \t
+Asp: \"
+#Tokens
+//int n1, n2, resultado;
+//printf("Coloque os dois numeros a serem calculados");
+//scanf(n1);
+//scanf(n2);
+//resultado=n1+n2;
+//printf(resultado);
+
+PLV_RESER_DECL      : {PReserv_Decl}
+PLV_RESER_IMPR      : {PReserv_Impr}
+PLV_RESER_PEGA      : {PReserv_Pega}
+IDENTIFICADOR       : {Letra}({Letra}|{Digito})*
+NUM_INTEIRO         : {Digito}+
+STRING              : \"([^\"\\\r\n]|\\.)*\"
+DELIMITADOR_O       : {Delim_op}
+DELIMITADOR_C       : {Delim_cl}
+SOMA                : {Mais}
+SUBT                : {Menos}
+MULT                : {Multi}
+DIVI                : {Divi}
+ATRIBUICAO          : {Ig}
+PONT_VIRG           : {PontV}
+VIRGULA             : {Virg}
+ORGANIZADOR_Linha   : {Org_n}+
+ORGANIZADOR_Espaco  : {Org_esp}+
+#NonTerminals
+<Inicio>
+<Variaveis>
+<VariaveisRest>
+<Sequencia>
+<SequenciaRest>
+<Comando>
+<CmdPrint>
+<CmdPrintConteudo>
+<CmdScan>
+<CmdAtrib>
+<Expr>
+<ExprRest>
+<Term>
+<TermRest>
+<Fator>
+<Espaco>
+<Quebra_L>
+#Grammar
+<Inicio> ::= PLV_RESER_DECL <Espaco> <Variaveis> PONT_VIRG <Quebra_L> <Sequencia> ;
+
+<Variaveis> ::= IDENTIFICADOR #13 <VariaveisRest> ;
+
+<VariaveisRest> ::= VIRGULA <Espaco> IDENTIFICADOR #13 <VariaveisRest>
+                   | î ;
+
+<Sequencia> ::= <Comando> <SequenciaRest>
+              | î ;
+
+<SequenciaRest> ::= <Comando> <SequenciaRest>
+                   | î ;
+
+<Comando> ::= <CmdPrint>
+            | <CmdScan>
+            | <CmdAtrib> ;
+
+<CmdPrint> ::= PLV_RESER_IMPR DELIMITADOR_O <CmdPrintConteudo> DELIMITADOR_C PONT_VIRG <Quebra_L> ;
+
+<CmdPrintConteudo> ::= STRING #9
+                     | <Expr> #12 ;
+
+<CmdScan> ::= PLV_RESER_PEGA DELIMITADOR_O IDENTIFICADOR #10 DELIMITADOR_C PONT_VIRG #11 <Quebra_L> ;
+
+<CmdAtrib> ::= IDENTIFICADOR #8 ATRIBUICAO <Expr> PONT_VIRG #7 <Quebra_L> ;
+
+<Expr> ::= <Term> <ExprRest> ;
+
+<ExprRest> ::= SOMA <Term> #6 <ExprRest>
+              | SUBT <Term> #5 <ExprRest>
+              | î ;
+
+<Term> ::= <Fator> <TermRest> ;
+
+<TermRest> ::= MULT <Fator> #4 <TermRest>
+              | DIVI <Fator> #3 <TermRest>
+              | î ;
+
+<Fator> ::= DELIMITADOR_O <Expr> DELIMITADOR_C
+          | NUM_INTEIRO #2
+          | IDENTIFICADOR #1 ;
+
+<Espaco> ::= ORGANIZADOR_Espaco <Espaco>
+           | î ;
+
+<Quebra_L> ::= ORGANIZADOR_Linha <Quebra_L>
+             | î ;
